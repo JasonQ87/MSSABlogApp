@@ -1,0 +1,10 @@
+﻿#Note: As we are using .Net8.0, consider using same version for installed packages*
+#Note: Sometimes you'll need to restart or clear cache after uninstalling a package*
+
+Install-Package Microsoft.EntityFrameworkCore.SqlServer (#Version 8.0 by Microsoft)
+Install-Package Microsoft.EntityFrameworkCore.Tools (#Version 8.0 by Microsoft)
+
+Add-Migration InitialCreate (run via Package Manager Console)
+Add-Migration AddCreationDateColumnToPost
+UpdateUpdate Database (run via Package Manager Console)
+

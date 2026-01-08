@@ -11,8 +11,8 @@ namespace MSSABlogApp
         public int PostId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-
-        public int BlogId { get; set; }
-        public virtual Blog Blog { get; set; }
+        public DateTime CreationDate { get; set; }
+        public int BlogId { get; set; } // Foreign key (1 to 1 relationship with Blog)
+        public virtual Blog Blog { get; set; } // Navigational Property to Blog
     }
 }
