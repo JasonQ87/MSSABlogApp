@@ -3,6 +3,7 @@
 
 Install-Package Microsoft.EntityFrameworkCore.SqlServer (#Version 8.0 by Microsoft)
 Install-Package Microsoft.EntityFrameworkCore.Tools (#Version 8.0 by Microsoft)
+Install-Package ConsoleTables
 
 Add-Migration InitialCreate (run via Package Manager Console)
 Add-Migration AddCreationDateColumnToPost

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -104,6 +105,43 @@ namespace MSSABlogApp
         }
 
         #endregion
+
+        #region Advanced Queries
+        public List<PostWithBlogDataDTO> GetPostsWithBlogName()
+        {
+            //LinQ Query
+            IQueryable<PostWithBlogDataDTO> query = from post in this._context.Posts
+                                        join blog in this._context.Blogs
+                                        on post.BlogId equals blog.BlogId
+                                        orderby post.Title ascending
+                                        select new PostWithBlogDataDTO
+                                        {
+                                            Title=post.Title,
+                                            Content=post.Content,
+                                            CreationDate=post.CreationDate,
+                                            BlogName=blog.Name
+                                            
+                                        };
+            return query.ToList();
+        }
+
+        // Get blogs that have more than 1 post
+        public dynamic GetBlogsHavingMoreThanOnePost(int count)
+        {
+            var query = from blog in _context.Blogs
+                        join post in _context.Posts on blog.BlogId equals post.BlogId
+                        group post by blog.BlogId into blogGroup
+                        where blogGroup.Count() > count
+                        select new
+                        {
+                            BlogId = blogGroup.Key,
+                            Name = blogGroup.First().Blog.Name,
+                            Count = blogGroup.Count()
+                        };
+            return query.ToList();
+        }
+        #endregion
+
     }
 }
 

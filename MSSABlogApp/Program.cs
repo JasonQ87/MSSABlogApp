@@ -1,5 +1,4 @@
 ﻿using ConsoleTables;
-
 namespace MSSABlogApp
 {
     internal class Program
@@ -7,24 +6,29 @@ namespace MSSABlogApp
         static BloggingService bloggingService = new BloggingService();
         static void Main(string[] args)
         {
-            AddNewBlog();
-
-            DisplayBlogs();
-
-            UpdateBlog();
-
-            DeleteBlog();
-
-            AddNewPost();
-
-            DisplayPosts();
-
-            UpdatePost();
-
-            DeletePost();
-
             Console.WriteLine("Welcome to the Blog App");
             Console.WriteLine("***********************");
+
+            #region Blog Operations
+            AddNewBlog();
+            DisplayBlogs();
+            UpdateBlog();
+            DeleteBlog();
+            #endregion
+
+            #region Post Operations
+            AddNewPost();
+            DisplayPosts();
+            UpdatePost();
+            DeletePost();
+            #endregion
+
+            #region Advanced Queries
+            // 1. Join: Get all posts with their corresponding blog names
+            GetPostsWithBlogNames();
+
+            #endregion
+
         }
 
         #region Blog Operations
@@ -44,7 +48,7 @@ namespace MSSABlogApp
                     CreationDate = DateTime.Now,
                 });
 
-            Console.WriteLine("New Blog Added Successfully!");
+            Console.WriteLine("New Blog Added Successfully!\n");
             Console.WriteLine();
             #endregion
         }
@@ -177,6 +181,33 @@ namespace MSSABlogApp
                 Console.Write("Sorry, No Post found.  Please try again.");
             }
             #endregion
+        }
+        #endregion
+
+        #region Advanced Queries
+        public static void GetPostsWithBlogNames()
+        {
+            Console.WriteLine("List Of Posts");
+            Console.WriteLine("***************");
+            var table = new ConsoleTable("Title", "Content", "Creation Date", "Blog Name");
+
+            foreach (PostWithBlogDataDTO post in bloggingService.GetPostsWithBlogName())
+            {
+                table.AddRow(post.Title, post.Content, post.CreationDate, post.BlogName);
+            }
+            table.Write();
+        }
+
+        public static void GetBlogsHavingMoreThanOnePost()
+        {
+            Console.WriteLine("Summary: Number Of Posts Per Blog ");
+            Console.WriteLine("*********************************");
+            var table = new ConsoleTable("Blog ID", "Name", "Posts Count");
+            foreach (dynamic summaryObj in bloggingService.GetBlogsHavingMoreThanOnePost(0))
+            {
+                table.AddRow(summaryObj.BlogId, summaryObj.Name, summaryObj.Count);
+            }
+            table.Write();
         }
         #endregion
 
